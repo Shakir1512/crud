@@ -96,6 +96,21 @@ export default function EventForm() {
     cancel();
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+    const response = await axios.post('/event', {
+    name,
+    email,
+    dob,
+    gender,
+    });
+    console.log(response.data);
+    } catch (error) {
+    console.error(error);
+    }
+    };
+
   return (
     <div>
       <Profile
@@ -106,112 +121,118 @@ export default function EventForm() {
         }
       />
       <div className="card">
-        <div className="form">
-          <div className="title">
-            <p>{event.id ? "Update" : "Create"} Event</p>
-          </div>
-          <div className="space"></div>
-          <div>
-            <label>
-              Name<span className="mandatory">*</span>
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={event.name || ""}
-              onChange={handleChange}
-            />
-            {!!errors.name && <span className="mandatory">{errors.name}</span>}
-          </div>
-          <div className="space"></div>
-          <div>
-            <label>
-              Description<span className="mandatory">*</span>
-            </label>
-            <textarea
-              style={{ width: "100%" }}
-              rows="4"
-              name="description"
-              value={event.description || ""}
-              onChange={handleChange}
-            ></textarea>
-            {!!errors.description && (
-              <span className="mandatory">{errors.description}</span>
-            )}
-          </div>
-          <div className="space"></div>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div style={{ width: "45%" }}>
+        <form>
+          <div className="form" onSubmit={handleSubmit}>
+            <div className="title">
+              <p>{event.id ? "Update" : "Create"} Event</p>
+            </div>
+            <div className="space"></div>
+            <div>
               <label>
-                Price<span className="mandatory">*</span>
+                Name<span className="mandatory">*</span>
               </label>
               <input
                 type="text"
-                name="price"
-                value={event.price || ""}
+                name="name" 
+                value={event.name || ""}
                 onChange={handleChange}
               />
-              {!!errors.price && (
-                <span className="mandatory">{errors.price}</span>
+              {!!errors.name && (
+                <span className="mandatory">{errors.name}</span>
               )}
             </div>
-            <div style={{ width: "45%" }}>
-              <label>
-                Date<span className="mandatory">*</span>
-              </label>
-              <input
-                type="date"
-                name="date"
-                value={event.date || ""}
-                onChange={handleChange}
-              />
-              {!!errors.date && (
-                <span className="mandatory">{errors.date}</span>
-              )}
-            </div>
-          </div>
-          <div className="space"></div>
-          <div>
-            <label>
-              Type<span className="mandatory">*</span>
-            </label>
             <div className="space"></div>
-            <div className="radio" style={{ display: "flex" }}>
-              <div>
+            <div>
+              <label>
+                Description<span className="mandatory">*</span>
+              </label>
+              <textarea
+                style={{ width: "100%" }}
+                rows="4"
+                name="description"
+                value={event.description || ""}
+                onChange={handleChange}
+              ></textarea>
+              {!!errors.description && (
+                <span className="mandatory">{errors.description}</span>
+              )}
+            </div>
+            <div className="space"></div>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div style={{ width: "45%" }}>
                 <label>
-                  <input
-                    type="radio"
-                    name="type"
-                    value="Normal"
-                    checked={event.type === "Normal"}
-                    onChange={handleChange}
-                  />
-                  &nbsp;Normal
+                  Price<span className="mandatory">*</span>
                 </label>
+                <input
+                  type="text"
+                  name="price"
+                  value={event.price || ""}
+                  onChange={handleChange}
+                />
+                {!!errors.price && (
+                  <span className="mandatory">{errors.price}</span>
+                )}
               </div>
-              <div style={{ marginLeft: "10px" }}>
+              <div style={{ width: "45%" }}>
                 <label>
-                  <input
-                    type="radio"
-                    name="type"
-                    value="Premium"
-                    checked={event.type === "Premium"}
-                    onChange={handleChange}
-                  />
-                  &nbsp;Premium
+                  Date<span className="mandatory">*</span>
                 </label>
+                <input
+                  type="date"
+                  name="date"
+                  value={event.date || ""}
+                  onChange={handleChange}
+                />
+                {!!errors.date && (
+                  <span className="mandatory">{errors.date}</span>
+                )}
               </div>
             </div>
-            {!!errors.type && <span className="mandatory">{errors.type}</span>}
+            <div className="space"></div>
+            <div>
+              <label>
+                Type<span className="mandatory">*</span>
+              </label>
+              <div className="space"></div>
+              <div className="radio" style={{ display: "flex" }}>
+                <div>
+                  <label>
+                    <input
+                      type="radio"
+                      name="type"
+                      value="Normal"
+                      checked={event.type === "Normal"}
+                      onChange={handleChange}
+                    />
+                    &nbsp;Normal
+                  </label>
+                </div>
+                <div style={{ marginLeft: "10px" }}>
+                  <label>
+                    <input
+                      type="radio"
+                      name="type"
+                      value="Premium"
+                      checked={event.type === "Premium"}
+                      onChange={handleChange}
+                    />
+                    &nbsp;Premium
+                  </label>
+                </div>
+              </div>
+              {!!errors.type && (
+                <span className="mandatory">{errors.type}</span>
+              )}
+            </div>
+            <div className="space"></div>
+            <div>
+              <button onClick={() => cancel()}>Cancel</button>
+              <button style={{ marginLeft: "5px" }} onClick={() => create()}>
+                {event.id ? "Update" : "Create"}
+              </button>
+            </div>
           </div>
-          <div className="space"></div>
-          <div>
-            <button onClick={() => cancel()}>Cancel</button>
-            <button style={{ marginLeft: "5px" }} onClick={() => create()}>
-              {event.id ? "Update" : "Create"}
-            </button>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
   );

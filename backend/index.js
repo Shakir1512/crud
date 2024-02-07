@@ -19,7 +19,7 @@ function mysqlConnect() {
       setTimeout(mysqlConnect, 2000);
     }
     console.log("connected to database");
-    global.connection.query("SELECT * FROM users", function (err, result, fields) {
+    global.connection.query("SELECT * FROM event", function (err, result, fields) {
       if (err) throw err;
       console.log(result);
     });
@@ -58,8 +58,8 @@ app.get("/",(req,res)=>{
 })
 
 app.get("/user",(req,res)=>{
-    const q="SELECT * FROM users"
-    global.connection.query("SELECT * FROM users",(err,data)=>{
+    const query="SELECT * FROM event"
+    global.connection.query(query,(err,data)=>{
         if(err) return res.json(err)
         console.log(data)
         return res.json(data)
