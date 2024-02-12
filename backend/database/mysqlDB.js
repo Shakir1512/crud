@@ -7,4 +7,4 @@ const connection = {
   database: "crud",
 }
 
-module.exports = connection;
+export default connection;
