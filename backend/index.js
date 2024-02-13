@@ -66,6 +66,15 @@ app.get("/user",(req,res)=>{
     })
 })
 
+app.get("/user/event",(req,res)=>{
+  const query="SELECT name FROM event"
+  global.connection.query(query,(err,data)=>{
+      if(err) return res.json(err)
+      console.log(data)
+      return res.json(data)
+  })
+})
+
 // Starting a server
 app.listen(port, () => {
   console.log(`app is running at ${port}`);
